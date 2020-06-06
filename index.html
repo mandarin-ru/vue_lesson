@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="course">
+    <h1>{{course.name}}</h1>
+    <h2>{{course.theme}}</h2>
+    <h3>{{course.description}}</h3>
+    {{course.dateStart.toLocaleString("ru")}}
+    <div>Список студентов:</div>
+    <ul>
+        <li v-for="(student, index) in course.studentList"
+            :key="student.id">
+            {{student.name}} {{student.surname}} {{student.secondname}}
+            <button @click="deleteStudent(index)">Удалить</button>
+        </li>
+    </ul>
+    <button @click="showForm">Добавить нового студента</button>
+    <form id="add_form" action="" style="display: none" @submit.prevent="addStudent">
+        <input type="text" v-model="name">
+        <input type="text" v-model="surname">
+        <input type="text" v-model="secondname">
+        <button>Добавить</button>
+    </form>
+
+    <ul v-if="errors.length">
+        <li v-for="error in errors">{{ error }}</li>
+    </ul>
+</div>
+</body>
+<script src="script.js"></script>
+</html>
