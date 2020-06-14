@@ -26,45 +26,43 @@ new Vue({
         showForm() {
             if (!this.showFormFlag) {
                 this.showFormFlag = true;
-                document.getElementById('add_form').style.display = 'block';
             } else {
                 this.showFormFlag = false;
-                document.getElementById('add_form').style.display = 'none';
             }
         },
         addStudent(e) {
-
-            if (!validate(this)) {
+            if (!this.validate()) {
                 this.course.studentList.push({
-                    id: this.course.studentList.length + 1,
+                    id: this.course.studentList[this.course.studentList.length - 1].id + 1,
                     name: this.name, surname: this.surname,
                     secondname: this.secondname
                 });
                 this.name = this.surname = this.secondname = '';
-                e.target.reset();
             }
-            e.preventDefault();
             return true;
         },
         deleteStudent(studentId) {
-            this.course.studentList.splice(studentId, 1);
+            for (let i = 0; i < this.course.studentList.length; i++) {
+                if (this.course.studentList[i].id == studentId) {
+                    this.course.studentList.splice(i, 1);
+                }
+            }
+        },
+        validate() {
+            let error = false;
+            if (!this.name) {
+                this.errors.push('Требуется указать имя.');
+                error = true;
+            }
+            if (!this.surname) {
+                this.errors.push('Требуется указать фамилию.');
+                error = true;
+            }
+            if (!this.secondname) {
+                this.errors.push('Требуется указать отчество.');
+                error = true;
+            }
+            return error;
         }
     }
 });
-function validate(element) {
-    var error = false;
-    element.errors = [];
-    if (!element.name) {
-        element.errors.push('Требуется указать имя.');
-        error = true;
-    }
-    if (!element.surname) {
-        element.errors.push('Требуется указать фамилию.');
-        error = true;
-    }
-    if (!element.secondname) {
-        element.errors.push('Требуется указать отчество.');
-        error = true;
-    }
-    return error;
-}

@@ -16,11 +16,11 @@
         <li v-for="(student, index) in course.studentList"
             :key="student.id">
             {{student.name}} {{student.surname}} {{student.secondname}}
-            <button @click="deleteStudent(index)">Удалить</button>
+            <button @click="deleteStudent(student.id)">Удалить</button>
         </li>
     </ul>
     <button @click="showForm">Добавить нового студента</button>
-    <form id="add_form" action="" style="display: none" @submit.prevent="addStudent">
+    <form id="add_form" action="" v-show="showFormFlag" @submit.prevent="addStudent">
         <input type="text" v-model="name">
         <input type="text" v-model="surname">
         <input type="text" v-model="secondname">
